@@ -167,6 +167,7 @@ class Ui(object):
             process = "随机循环 " + process
         else:
             pass
+        process = process + '_{}_'.format(self.storage.database['player_info']['playing_volume'])
         self.addstr(3, self.startcol - 2, process, curses.color_pair(1))
         if not lyrics:
             self.now_lyric = "暂无歌词 ~>_<~ \n"
