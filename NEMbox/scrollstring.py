@@ -7,10 +7,11 @@ from future.builtins import int, chr
 
 
 class scrollstring(object):
-    def __init__(self, content, START):
+    def __init__(self, content, START, wwidth = 1000):
         self.content = content  # the true content of the string
         self.display = content  # the displayed string
         self.START = START // 1  # when this instance is created
+        self.wwidth = wwidth    # scroll window width
         self.update()
 
     def update(self):
@@ -25,7 +26,7 @@ class scrollstring(object):
                 offset -= 1
                 self.display = self.display[1:] + self.display[:1]
 
-        # self.display = self.content[offset:] + self.content[:offset]
+        self.display = self.display[:int(self.wwidth)]
 
     def __repr__(self):
         return self.display

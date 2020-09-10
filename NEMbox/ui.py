@@ -109,7 +109,7 @@ class Ui(object):
         self.addstr(
             1,
             min(self.indented_startcol + 18, self.x - 1),
-            song_name + self.space + artist + "  < " + album_name + " >",
+            song_name + self.space + artist, # + "  < " + album_name + " >",
             curses.color_pair(4),
         )
 
@@ -281,7 +281,7 @@ class Ui(object):
                         lead,
                         curses.color_pair(2),
                     )
-                    name = "{}{}{}  < {} >".format(
+                    name = "{}{}{} - {}".format(
                         datalist[i]["song_name"],
                         self.space,
                         datalist[i]["artist"],
@@ -297,7 +297,7 @@ class Ui(object):
                             curses.color_pair(2),
                         )
                     else:
-                        name = scrollstring(name + "  ", start)
+                        name = scrollstring(name + " ", start, int(self.x*0.6))
                         self.addstr(
                             i - offset + 8,
                             self.indented_startcol + len(lead),
@@ -309,13 +309,13 @@ class Ui(object):
                     self.addstr(
                         i - offset + 8,
                         self.startcol,
-                        "{}. {}{}{}  < {} >".format(
+                        "{}.{}{}{} - {}".format(
                             i,
                             datalist[i]["song_name"],
                             self.space,
                             datalist[i]["artist"],
                             datalist[i]["album_name"],
-                        )[: int(self.x * 2)],
+                        )[: int(self.x*0.6)],
                     )
 
             self.addstr(iter_range - offset + 8, 0, " " * self.x)
@@ -613,9 +613,9 @@ class Ui(object):
 
     def update_space(self):
         if self.x > 140:
-            self.space = "   -   "
+            self.space = "-"
         elif self.x > 80:
-            self.space = "  -  "
+            self.space = "-"
         else:
-            self.space = " - "
+            self.space = "-"
         self.screen.refresh()
