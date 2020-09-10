@@ -50,9 +50,9 @@ shortcut = [
     ["k", "Up        ", "上移"],
     ["h", "Back      ", "后退"],
     ["l", "Forward   ", "前进"],
-    ["u", "Prev page ", "上一页"],
-    ["d", "Next page ", "下一页"],
-    ["f", "Search    ", "快速搜索"],
+    ["b", "Prev page ", "上一页"],
+    ["f", "Next page ", "下一页"],
+    ["/", "Search    ", "快速搜索"],
     ["[", "Prev song ", "上一曲"],
     ["]", "Next song ", "下一曲"],
     [" ", "Play/Pause", "播放/暂停"],
@@ -66,15 +66,15 @@ shortcut = [
     ["Shift+a", "Enter album      ", "进入专辑"],
     ["a", "Add              ", "添加曲目到打碟"],
     ["z", "DJ list          ", "打碟列表（退出后清空）"],
-    ["s", "Star      ", "添加到本地收藏"],
+    # ["s", "Star      ", "添加到本地收藏"],
     ["c", "Collection", "本地收藏列表"],
-    ["r", "Remove    ", "删除当前条目"],
+    ["d", "Delete    ", "删除当前条目"],
     ["Shift+j", "Move Down ", "向下移动当前条目"],
     ["Shift+k", "Move Up   ", "向上移动当前条目"],
     [",", "Like      ", "喜爱"],
     ["Shfit+c", "Cache     ", "缓存歌曲到本地"],
     [".", "Trash FM  ", "删除 FM"],
-    ["/", "Next FM   ", "下一 FM"],
+    [">", "Next FM   ", "下一 FM"],
     ["q", "Quit      ", "退出"],
     ["w", "Quit&Clear", "退出并清除用户信息"],
 ]
@@ -340,7 +340,7 @@ class Menu(object):
                 self.offset = 0
 
             # 向上翻页
-            elif key == ord("u"):
+            elif key == ord("b"):
                 if offset == 0:
                     continue
                 self.menu_starts = time.time()
@@ -350,7 +350,7 @@ class Menu(object):
                 self.index = (self.index - step) // step * step
 
             # 向下翻页
-            elif key == ord("d"):
+            elif key == ord("f"):
                 if offset + step >= len(datalist):
                     continue
                 self.menu_starts = time.time()
@@ -386,8 +386,7 @@ class Menu(object):
                 self.at_playing_list = False
 
             # 搜索
-            elif key == ord("f"):
-                # 8 is the 'search' menu
+            elif key == ord("/"):
                 self.dispatch_enter(8)
 
             # 播放下一曲
@@ -434,7 +433,7 @@ class Menu(object):
                         notify("Deleted successfully!", 0)
 
             # 下一FM
-            elif key == ord("/"):
+            elif key == ord(">"):
                 if self.datatype == "fmsongs":
                     if len(self.player.info["player_list"]) == 0:
                         continue
@@ -526,13 +525,13 @@ class Menu(object):
                 self.offset = 0
                 self.index = 0
 
-            # 添加到本地收藏
-            elif key == ord("s"):
-                if (datatype == "songs" or datatype == "djchannels") and len(
-                    datalist
-                ) != 0:
-                    self.collection.append(datalist[idx])
-                    notify("Added successfully", 0)
+            # # 添加到本地收藏
+            # elif key == ord("s"):
+            #     if (datatype == "songs" or datatype == "djchannels") and len(
+            #         datalist
+            #     ) != 0:
+            #         self.collection.append(datalist[idx])
+            #         notify("Added successfully", 0)
 
             # 加载本地收藏
             elif key == ord("c"):
@@ -544,7 +543,7 @@ class Menu(object):
                 self.index = 0
 
             # 从当前列表移除
-            elif key == ord("r"):
+            elif key == ord("d"):
                 if (
                     datatype in ("songs", "djchannels", "fmsongs")
                     and len(datalist) != 0
